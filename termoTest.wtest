@@ -1,0 +1,33 @@
+import baldes.*
+
+describe "termo" {
+  test "El termo comienza vacío y pesa 100 gramos" {
+    assert.equals(100, termo.pesoTotal())
+  }
+
+  test "Al llenar el termo pesa 1100 gramos" {
+    termo.llenar()
+
+    assert.equals(1100, termo.pesoTotal())
+  }
+
+  test "Al vaciar un termo lleno vuelve a pesar 100 gramos" {
+    termo.llenar()
+    termo.vaciar()
+
+    assert.equals(100, termo.pesoTotal())
+  }
+
+  test "Llenar un termo lleno no agrega más peso" {
+    termo.llenar()
+    termo.llenar()
+
+    assert.equals(1100, termo.pesoTotal())
+  }
+
+  test "Vaciar un termo vacío mantiene su peso en 100 gramos" {
+    termo.vaciar()
+
+    assert.equals(100, termo.pesoTotal())
+  }
+}

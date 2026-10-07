@@ -17,7 +17,7 @@ describe "clase 19" {
 
   test "un balde sin unidades tiene peso 0" {
     // Assert
-    assert.equals(0, balde.pesoAlmacenado())
+    assert.equals(0, balde.pesoTotal())
   }
 
   test "Al agregar unidades de contenido de un balde se calcula su peso de forma correcta" {
@@ -25,7 +25,7 @@ describe "clase 19" {
     balde.agregarUnidades(5)
 
     // Assert -> estado final esperado del programa
-    assert.equals(50, balde.pesoAlmacenado())
+    assert.equals(50, balde.pesoTotal())
   }
 
   test "Al quitar unidades de contenido de un balde se calcula su peso de forma correcta" {
@@ -36,7 +36,7 @@ describe "clase 19" {
     balde.sacarUnidades(5)
 
     // Assert
-    assert.equals(50, balde.pesoAlmacenado())
+    assert.equals(50, balde.pesoTotal())
   }
 
   test "Se pueden agregar unidades hasta alcanzar exactamente el peso máximo" {
@@ -47,7 +47,7 @@ describe "clase 19" {
     balde.agregarUnidades(50)
 
     // Assert
-    assert.equals(1000, balde.pesoAlmacenado())
+    assert.equals(1000, balde.pesoTotal())
   }
 
   test "Al sacar todas las unidades el balde queda con peso 0" {
@@ -58,7 +58,27 @@ describe "clase 19" {
     balde.sacarUnidades(50)
 
     // Assert
-    assert.equals(0, balde.pesoAlmacenado())
+    assert.equals(0, balde.pesoTotal())
+  }
+
+  test "No se pueden agregar cantidades negativas y el balde conserva su contenido" {
+    self.cargarBalde(10)
+
+    assert.throwsExceptionWithMessage("La cantidad que ingresaste debe ser positiva.", {
+      balde.agregarUnidades(-5)
+    })
+
+    assert.equals(100, balde.pesoTotal())
+  }
+
+  test "No se pueden sacar cantidades negativas y el balde conserva su contenido" {
+    self.cargarBalde(10)
+
+    assert.throwsExceptionWithMessage("La cantidad que ingresaste debe ser positiva.", {
+      balde.sacarUnidades(-5)
+    })
+
+    assert.equals(100, balde.pesoTotal())
   }
 
   test "No se pueden agregar unidades tal que se supere el peso máximo" {

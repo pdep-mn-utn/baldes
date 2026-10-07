@@ -6,15 +6,20 @@ class Balde {
   var unidades = 0
 
   method agregarUnidades(cantidad) {
-    self.validarAgregar(cantidad)
+    self.validarPositividad(cantidad)
+    self.validarIncremento(cantidad)
     unidades += cantidad
 
   }
 
-  method validarAgregar(cantidad) {
-    const pesoPotencial = self.pesoAlmacenado() + cantidad * pesoUnitario
+  method validarPositividad(cantidad){
+    if (cantidad < 0 )throw new UserException(message = "La cantidad que ingresaste debe ser positiva.")
+  }
+
+  method validarIncremento(cantidad) {
+    const pesoPotencial = self.pesoTotal() + cantidad * pesoUnitario
     if (pesoPotencial > pesoMaximo) {
-      const unidadesDisponibles = ((pesoMaximo - self.pesoAlmacenado()) / pesoUnitario).truncate(0)
+      const unidadesDisponibles = ((pesoMaximo - self.pesoTotal()) / pesoUnitario).truncate(0)
       throw new UserException(message="Podés agregar solamente hasta " + unidadesDisponibles.toString() +
                                       " unidades más. Las " + cantidad.toString() +
                                       " unidades que querés agregar exceden el peso máximo de " + pesoMaximo.toString() + ".")
@@ -22,19 +27,36 @@ class Balde {
   }
 
   method sacarUnidades(cantidad) {
-    self.validarSacar(cantidad)
+    self.validarPositividad(cantidad)
+    self.validarDecremento(cantidad)
     unidades -= cantidad
   }
 
-  method validarSacar(cantidad) {
+  method validarDecremento(cantidad) {
     if (cantidad > unidades) {
       throw new UserException(message="Solamente puede sacar hasta "+ unidades.toString() + " unidades. Las " + cantidad.toString() +
                                       " unidades exceden el límite.")
     }
   }
 
-  method pesoAlmacenado() {
+  method pesoTotal() {
     return pesoUnitario * unidades
+  }
+}
+
+object termo {
+  var lleno = false
+
+  method llenar() {
+    lleno = true
+  }
+
+  method vaciar() {
+    lleno = false
+  }
+
+  method pesoTotal() {
+    return if (lleno) 1100 else 100
   }
 }
 
@@ -42,7 +64,7 @@ object juan {
   var balde = new Balde(pesoUnitario = 40)
 
   method pesoTotal() {
-    return 70 + balde.pesoAlmacenado()
+    return 70 + balde.pesoTotal()
   }
 
   method cambiarPor(otroBalde) {
@@ -54,7 +76,7 @@ object manu {
   const balde = new Balde(pesoUnitario = 30)
 
   method pesoTotal() {
-    return 70 + balde.pesoAlmacenado()
+    return 70 + balde.pesoTotal()
   }
 
   method agregarAutitosASuBalde(cantidad) {
