@@ -1,0 +1,83 @@
+import baldes.*
+
+describe "clase 19" {
+  test "un balde con 0 unidades tiene peso 0" {
+    // Arrange
+    const baldeVacio = new Balde(
+      pesoUnitario = 10,
+      unidades = 0,
+      pesoMaximo = 1000
+    )
+
+    // Act
+    // nada que hacer
+
+    // Assert
+    assert.equals(0, baldeVacio.pesoAlmacenado())
+  }
+
+  test "si agrego N unidades a un balde vacío,
+  su peso pasa a ser N * PU" {
+    // Arrange -> definición del estado actual del programa
+    const balde = new Balde(
+      pesoUnitario = 10,
+      unidades = 0,
+      pesoMaximo = 1000
+    )
+
+    // Act -> la acción en concreto que se produce
+    balde.agregarUnidades(5)
+
+    // Assert -> estado final esperado del programa
+    assert.equals(50, balde.pesoAlmacenado())
+  }
+
+  test "si saco M unidades a un balde con N unidades,
+  su peso pasa a ser (N-M) * PU" {
+    // Arrange
+    const balde = new Balde(
+      pesoUnitario = 10,
+      unidades = 10,
+      pesoMaximo = 1000
+    )
+
+    // Act
+    balde.sacarUnidades(5)
+
+    // Assert
+    assert.equals(50, balde.pesoAlmacenado())
+  }
+
+  test "No se pueden agregar unidades tal que se supere el peso máximo" {
+    // Arrange
+    const balde = new Balde(
+      pesoUnitario = 10,
+      unidades = 50,
+      pesoMaximo = 1000
+    )
+
+    const cantidad = 101
+
+    // Act & Assert
+    assert.throwsExceptionWithMessage("No se pueden agregar " + cantidad +
+                                      " unidades, ya que superaría el peso máximo", { balde.agregarUnidades(cantidad) })
+
+  }
+
+  test "No se pueden sacar más unidades de las que se disponen" {
+    // Arrange
+    const balde = new Balde(
+      pesoUnitario = 10,
+      unidades = 50,
+      pesoMaximo = 1000
+    )
+
+    const cantidad = 101
+
+    // Act & Assert
+    assert.throwsExceptionWithMessage("No es posible sacar " + cantidad +
+                                      "unidades. El balde posee menos.", { balde.sacarUnidades(cantidad) })
+    
+  }
+
+}
