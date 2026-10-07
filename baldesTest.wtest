@@ -68,7 +68,7 @@ describe "clase 19" {
     const cantidad = 101
 
     // Act & Assert
-    assert.throwsExceptionWithMessage("El peso máximo es 1000. No se pueden agregar 101 unidades, ya que lo supera", { balde.agregarUnidades(cantidad) })
+    assert.throwsExceptionWithMessage("Podés agregar solamente hasta 50 unidades más. Las 101 unidades que querés agregar exceden el peso máximo de 1000.", { balde.agregarUnidades(cantidad) })
 
   }
 
