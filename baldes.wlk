@@ -48,10 +48,8 @@ object juan {
     balde.agregarUnidades(4)
   }
 
-  method cambiarBaldePorUnString() {
-    balde = "soy un balde"
-    // la instancia de Balde es
-    // eliminada por el Garbage Collector
+  method cambiarPor(otroBalde) {
+    balde = otroBalde
   }
 }
 
