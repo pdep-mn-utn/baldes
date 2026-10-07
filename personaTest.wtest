@@ -1,0 +1,68 @@
+import baldes.*
+
+describe "persona" {
+  test "Una persona sin objetos pesa solamente su peso propio" {
+    const persona = new Persona(pesoPropio = 75000)
+
+    assert.equals(75000, persona.pesoTotal())
+  }
+
+  test "El peso total suma el peso propio, el balde y el termo lleno" {
+    const balde = new Balde(pesoUnitario = 300, pesoMaximo = 1000, unidades = 3)
+    const persona = new Persona(pesoPropio = 75000, inventario = [balde, termo])
+    termo.llenar()
+
+    assert.equals(77000, persona.pesoTotal())
+  }
+
+  test "Al quitar un objeto deja de formar parte del peso total" {
+    const persona = new Persona(pesoPropio = 75000)
+    persona.agregarObjeto(termo)
+    assert.equals(75100, persona.pesoTotal())
+
+    persona.quitarObjeto(termo)
+
+    assert.equals(75000, persona.pesoTotal())
+  }
+
+  test "Cada persona tiene su propio inventario" {
+    const unaPersona = new Persona(pesoPropio = 75000)
+    const otraPersona = new Persona(pesoPropio = 70000)
+
+    unaPersona.agregarObjeto(termo)
+
+    assert.equals(75100, unaPersona.pesoTotal())
+    assert.equals(70000, otraPersona.pesoTotal())
+  }
+
+  test "El mismo termo puede compartirse y sus cambios afectan a ambas personas" {
+    const unaPersona = new Persona(pesoPropio = 75000, inventario = [termo])
+    const otraPersona = new Persona(pesoPropio = 70000, inventario = [termo])
+
+    termo.llenar()
+
+    assert.equals(76100, unaPersona.pesoTotal())
+    assert.equals(71100, otraPersona.pesoTotal())
+
+    termo.vaciar()
+
+    assert.equals(75100, unaPersona.pesoTotal())
+    assert.equals(70100, otraPersona.pesoTotal())
+  }
+
+  test "El peso de la persona refleja los cambios en el contenido de su balde" {
+    const balde = new Balde(pesoUnitario = 40)
+    const persona = new Persona(pesoPropio = 70000, inventario = [balde])
+
+    balde.agregarUnidades(3)
+
+    assert.equals(70120, persona.pesoTotal())
+  }
+
+  test "Juan y Manu son personas con inventarios independientes" {
+    juan.agregarObjeto(termo)
+
+    assert.equals(70100, juan.pesoTotal())
+    assert.equals(70000, manu.pesoTotal())
+  }
+}

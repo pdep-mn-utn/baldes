@@ -60,29 +60,32 @@ object termo {
   }
 }
 
-object juan {
-  var balde = new Balde(pesoUnitario = 40)
+class Persona {
+  const pesoPropio
+  const inventario = []
 
   method pesoTotal() {
-    return 70 + balde.pesoTotal()
+    return pesoPropio + inventario.sum { cosa => cosa.pesoTotal() }
   }
 
-  method cambiarPor(otroBalde) {
-    balde = otroBalde
+  method agregarObjeto(cosa) {
+    inventario.add(cosa)
+  }
+
+  method quitarObjeto(cosa) {
+    inventario.remove(cosa)
   }
 }
 
-object manu {
-  const balde = new Balde(pesoUnitario = 30)
+const juan = new Persona(
+  pesoPropio = 70000,
+  inventario = [new Balde(pesoUnitario = 40)]
+)
 
-  method pesoTotal() {
-    return 70 + balde.pesoTotal()
-  }
-
-  method agregarAutitosASuBalde(cantidad) {
-    balde.agregarUnidades(cantidad)
-  }
-}
+const manu = new Persona(
+  pesoPropio = 70000,
+  inventario = [new Balde(pesoUnitario = 30)]
+)
 
 // Podríamos crear 100 baldes con:
 // 100.times { _i => new Balde() }
