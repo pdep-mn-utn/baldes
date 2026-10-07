@@ -1,30 +1,26 @@
 import baldes.*
 
 describe "clase 19" {
-  test "un balde con 0 unidades tiene peso 0" {
-    // Arrange
-    const baldeVacio = new Balde(
+  var balde
+
+  method initialize() {
+    balde = new Balde(
       pesoUnitario = 10,
       unidades = 0,
       pesoMaximo = 1000
     )
-
-    // Act
-    // nada que hacer
-
-    // Assert
-    assert.equals(0, baldeVacio.pesoAlmacenado())
   }
 
-  test "si agrego N unidades a un balde vacío,
-  su peso pasa a ser N * PU" {
-    // Arrange -> definición del estado actual del programa
-    const balde = new Balde(
-      pesoUnitario = 10,
-      unidades = 0,
-      pesoMaximo = 1000
-    )
+  method cargarBalde(cantidad) {
+    balde.agregarUnidades(cantidad)
+  }
 
+  test "un balde sin unidades tiene peso 0" {
+    // Assert
+    assert.equals(0, balde.pesoAlmacenado())
+  }
+
+  test "Al agregar unidades de contenido de un balde se calcula su peso de forma correcta" {
     // Act -> la acción en concreto que se produce
     balde.agregarUnidades(5)
 
@@ -32,14 +28,9 @@ describe "clase 19" {
     assert.equals(50, balde.pesoAlmacenado())
   }
 
-  test "si saco M unidades a un balde con N unidades,
-  su peso pasa a ser (N-M) * PU" {
+  test "Al quitar unidades de contenido de un balde se calcula su peso de forma correcta" {
     // Arrange
-    const balde = new Balde(
-      pesoUnitario = 10,
-      unidades = 10,
-      pesoMaximo = 1000
-    )
+    self.cargarBalde(10)
 
     // Act
     balde.sacarUnidades(5)
@@ -48,35 +39,47 @@ describe "clase 19" {
     assert.equals(50, balde.pesoAlmacenado())
   }
 
+  test "Se pueden agregar unidades hasta alcanzar exactamente el peso máximo" {
+    // Arrange
+    self.cargarBalde(50)
+
+    // Act
+    balde.agregarUnidades(50)
+
+    // Assert
+    assert.equals(1000, balde.pesoAlmacenado())
+  }
+
+  test "Al sacar todas las unidades el balde queda con peso 0" {
+    // Arrange
+    self.cargarBalde(50)
+
+    // Act
+    balde.sacarUnidades(50)
+
+    // Assert
+    assert.equals(0, balde.pesoAlmacenado())
+  }
+
   test "No se pueden agregar unidades tal que se supere el peso máximo" {
     // Arrange
-    const balde = new Balde(
-      pesoUnitario = 10,
-      unidades = 50,
-      pesoMaximo = 1000
-    )
+    self.cargarBalde(50)
 
     const cantidad = 101
 
     // Act & Assert
-    assert.throwsExceptionWithMessage("No se pueden agregar " + cantidad +
-                                      " unidades, ya que superaría el peso máximo", { balde.agregarUnidades(cantidad) })
+    assert.throwsExceptionWithMessage("El peso máximo es 1000. No se pueden agregar 101 unidades, ya que lo supera", { balde.agregarUnidades(cantidad) })
 
   }
 
   test "No se pueden sacar más unidades de las que se disponen" {
     // Arrange
-    const balde = new Balde(
-      pesoUnitario = 10,
-      unidades = 50,
-      pesoMaximo = 1000
-    )
+    self.cargarBalde(50)
 
     const cantidad = 101
 
     // Act & Assert
-    assert.throwsExceptionWithMessage("No es posible sacar " + cantidad +
-                                      "unidades. El balde posee menos.", { balde.sacarUnidades(cantidad) })
+    assert.throwsExceptionWithMessage("Solamente puede sacar hasta 50 unidades. Las 101 unidades exceden el límite.", { balde.sacarUnidades(cantidad) })
     
   }
 

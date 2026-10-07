@@ -14,8 +14,8 @@ class Balde {
   method validarAgregar(cantidad) {
     const pesoPotencial = self.pesoAlmacenado() + cantidad * pesoUnitario
     if (pesoPotencial > pesoMaximo) {
-      throw new UserException(message="No se pueden agregar " + cantidad +
-                                      " unidades, ya que superaría el peso máximo")
+      throw new UserException(message="El peso máximo es " + pesoMaximo.toString() + ". No se pueden agregar " + cantidad.toString() +
+                                      " unidades, ya que lo supera")
     }
   }
 
@@ -26,8 +26,8 @@ class Balde {
 
   method validarSacar(cantidad) {
     if (cantidad > unidades) {
-      throw new UserException(message="No es posible sacar " + cantidad +
-                                      "unidades. El balde posee menos.")
+      throw new UserException(message="Solamente puede sacar hasta "+ unidades.toString() + " unidades. Las " + cantidad.toString() +
+                                      " unidades exceden el límite.")
     }
   }
 
