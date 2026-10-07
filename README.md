@@ -1,6 +1,9 @@
 
 
-## example
+## Clase de clases con clase 
 
-TODO
+[![build](https://github.com/matmirr/baldes/actions/workflows/ci.yml/badge.svg)](https://github.com/matmirr/baldes/actions/workflows/ci.yml)
+
+Ejemplo de baldes
+
 
